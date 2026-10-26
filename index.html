@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMAN 9 PADANG - Modul Interactive Sejarah XI (Fase F)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#16a34a',
+                            600: '#15803d',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        maroon: {
+                            800: '#800000',
+                            900: '#5c0000',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Print Stylesheet for Official PDF Report */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .page-break { page-break-before: always; }
+            .card-print { border: 1px solid #ccc !important; box-shadow: none !important; }
+        }
+        .print-only { display: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #059669; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- HEADER DAN IDENTITAS RESMI -->
+    <header class="bg-gradient-to-r from-red-900 via-amber-900 to-emerald-900 text-white shadow-lg sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white text-red-900 rounded-full flex items-center justify-center font-bold text-xl shadow-md border-2 border-amber-400">
+                        <i class="fa-solid font-bold text-2xl">9</i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-tight">SMA NEGERI 9 PADANG</h1>
+                        <p class="text-xs text-amber-200 font-medium">Mata Pelajaran: Sejarah | Kelas XI (Fase F) | Guru: Anton Virgo, S.Pd</p>
+                    </div>
+                </div>
+
+                <!-- Control Bar Header -->
+                <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                    <!-- Badge Deep Learning -->
+                    <span class="hidden lg:inline-block bg-amber-500/20 text-amber-200 border border-amber-400/30 px-3 py-1 rounded-full font-medium">
+                        <i class="fa-solid fa-brain mr-1"></i> Deep Learning
+                    </span>
+                    <!-- Dark Mode Toggle -->
+                    <button id="themeToggleBtn" onclick="toggleTheme()" class="bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-colors flex items-center gap-1">
+                        <i id="themeIcon" class="fa-solid fa-moon"></i>
+                        <span id="themeText" class="hidden sm:inline">Gelap</span>
+                    </button>
+                    <!-- Audio Effects Toggle -->
+                    <button id="audioToggleBtn" onclick="toggleAudio()" class="bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-colors flex items-center gap-1 text-emerald-300">
+                        <i id="audioIcon" class="fa-solid fa-volume-high"></i>
+                        <span id="audioText" class="hidden sm:inline">Suara: On</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN NAVIGATION TABS -->
+        <nav class="bg-black/30 backdrop-blur-md border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('materi')" id="tab-materi" class="nav-tab py-3 px-4 font-semibold text-sm border-b-2 border-amber-400 text-amber-300 flex items-center space-x-2 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-book-open"></i><span>1. Modul Materi</span>
+                </button>
+                <button onclick="switchTab('banksoal')" id="tab-banksoal" class="nav-tab py-3 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-300 hover:text-white flex items-center space-x-2 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-pen-to-square"></i><span>2. Bank Soal (5 Tipe)</span>
+                </button>
+                <button onclick="switchTab('lkpd')" id="tab-lkpd" class="nav-tab py-3 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-300 hover:text-white flex items-center space-x-2 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-file-signature"></i><span>3. LKPD Interaktif</span>
+                </button>
+                <button onclick="switchTab('game')" id="tab-game" class="nav-tab py-3 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-300 hover:text-white flex items-center space-x-2 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-gamepad"></i><span>4. Game Edukasi</span>
+                </button>
+                <button onclick="switchTab('rekam')" id="tab-rekam" class="nav-tab py-3 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-300 hover:text-white flex items-center space-x-2 whitespace-nowrap transition-all">
+                    <i class="fa-solid fa-clipboard-check"></i><span>5. Rekam Kerja & PDF</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- IDENTITAS SISWA BAR (ALWAYS VISIBLE) -->
+        <div class="no-print bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md mb-6 border-l-4 border-emerald-500 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <span class="font-bold text-gray-700 dark:text-gray-200 text-sm flex items-center gap-1">
+                    <i class="fa-solid fa-user-graduate text-emerald-600"></i> Profil Siswa:
+                </span>
+                <input type="text" id="studentName" oninput="updateStudentData()" placeholder="Nama Lengkap Siswa" class="px-3 py-1.5 border dark:border-gray-600 rounded-lg text-sm bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none w-48 sm:w-64">
+                <input type="text" id="studentClass" oninput="updateStudentData()" placeholder="Kelas (Misal: XI.1)" class="px-3 py-1.5 border dark:border-gray-600 rounded-lg text-sm bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none w-28">
+                <input type="text" id="studentNis" oninput="updateStudentData()" placeholder="NIS / NISN" class="px-3 py-1.5 border dark:border-gray-600 rounded-lg text-sm bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none w-28">
+            </div>
+            <div class="flex items-center gap-4 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                <div><i class="fa-regular fa-clock mr-1"></i> Durasi Sesi: <span id="sessionTimer" class="text-emerald-600 dark:text-emerald-400 font-mono">00:00</span></div>
+                <div><i class="fa-solid fa-trophy mr-1 text-amber-500"></i> Total Skor: <span id="globalScore" class="text-emerald-600 dark:text-emerald-400 font-bold">0</span></div>
+            </div>
+        </div>
+
+        <!-- TAB 1: MODUL MATERI -->
+        <section id="content-materi" class="tab-content space-y-8">
+            <!-- Top Banner Materi -->
+            <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <span class="bg-amber-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Modul Pembelajaran Mendalam (Deep Learning)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Kebangkitan Nasionalisme Indonesia & Organisasi Pergerakan</h2>
+                    <p class="text-emerald-100 text-sm mt-1 max-w-3xl">
+                        Aktivitas Belajar: Memahami Akar Sejarah → Mengaplikasikan Analisis Kausalitas → Merefleksikan Jiwa Kebangsaan dalam Konteks Modern.
+                    </p>
+                </div>
+            </div>
+
+            <!-- PETA KONSEP INTERAKTIF -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
+                <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                    <i class="fa-solid fa-sitemap"></i> Peta Konsep Interaktif Pergerakan Nasional
+                </h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Klik pada elemen kotak untuk menavigasi subbab atau melihat uraian singkat kaitan antar peristiwa.</p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-center">
+                    <div onclick="scrollToChapter('sub1')" class="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl hover:shadow-lg cursor-pointer transition-all">
+                        <div class="font-bold text-sm text-emerald-800 dark:text-emerald-300">1. Latar Belakang & Politik Etis</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Edukasi, Irigasi, Transmigrasi → Lahirnya Golongan Teredukasi</div>
+                    </div>
+                    <div onclick="scrollToChapter('sub2')" class="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl hover:shadow-lg cursor-pointer transition-all">
+                        <div class="font-bold text-sm text-amber-800 dark:text-amber-300">2. Pelopor Organisasi (1908-1912)</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Budi Utomo & Sarekat Islam (Masa Koperatif & Sosio-Ekonomi)</div>
+                    </div>
+                    <div onclick="scrollToChapter('sub3')" class="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl hover:shadow-lg cursor-pointer transition-all">
+                        <div class="font-bold text-sm text-red-800 dark:text-red-300">3. Arah Radikal & Politik (1913-1927)</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Indische Partij, PKI, PNI, Perhimpunan Indonesia</div>
+                    </div>
+                    <div onclick="scrollToChapter('sub4')" class="p-4 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 rounded-xl hover:shadow-lg cursor-pointer transition-all">
+                        <div class="font-bold text-sm text-indigo-800 dark:text-indigo-300">4. Puncak Konsolidasi & Sumpah Pemuda</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Kongres Pemuda II 1928, Pergerakan Wanita, Konsensus Nasional</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GLOSARIUM INTERAKTIF (SEARCHABLE) -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <h3 class="text-lg font-bold flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                        <i class="fa-solid fa-spell-check"></i> Glosarium Istilah Sejarah (30+ Istilah)
+                    </h3>
+                    <input type="text" id="glossarySearch" oninput="filterGlossary()" placeholder="Cari istilah (mis. Volksraad, Indie)..." class="px-3 py-1.5 text-sm border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 w-full sm:w-64">
+                </div>
+                <div id="glossaryContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-1">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- MODUL SUBBAB MATERI MENDALAM -->
+            <div class="space-y-8">
+
+                <!-- SUBBAB 1 -->
+                <article id="sub1" class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 space-y-4">
+                    <div class="border-b pb-3 dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-emerald-700 dark:text-emerald-400">Subbab 1: Akar Nasionalisme & Politik Etis (Ethische Politiek)</h3>
+                        <span class="text-xs font-semibold px-2 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 rounded">Tahap Memahami</span>
+                    </div>
+                    <div class="prose dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed space-y-3">
+                        <p>
+                            Pada akhir abad ke-19, eksploitasi Sistem Tanam Paksa (Cultuurstelsel) melahirkan kritik tajam dari kalangan humanis Belanda seperti Conrad Theodor van Deventer yang menulis artikel terkenal <em>"Een Eereschuld"</em> (Utang Kehormatan) pada tahun 1899. Pemerintah kolonial Belanda merespons dengan mengumumkan kebijakan <strong>Politik Etis</strong> (1901) yang berlandaskan tiga pilar utama: <em>Edukasi</em> (pendidikan), <em>Irigasi</em> (pengairan), dan <em>Emigrasi/Transmigrasi</em> (perpindahan penduduk).
+                        </p>
+                        <p>
+                            Meskipun niat awal kolonial adalah menyediakan tenaga kerja murah terdidik untuk birokrasi dan perkebunan swasta, pilar <strong>Edukasi</strong> bertindak sebagai senjata makan tuan (*unintended consequence*). Sekolah-sekolah seperti STOVIA (Sekolah Dokter Jawa), OSVIA, dan NIAS melahirkan sekumpulan anak muda pribumi terdidik yang mampu membaca peta dunia, memahami pemikiran demokrasi barat, serta menyadari persamaan nasib penderitaan sebagai bangsa yang terjajah.
+                        </p>
+
+                        <!-- ANALOGI KESEHARIAN -->
+                        <div class="bg-blue-50 dark:bg-blue-950/40 p-4 rounded-xl border-l-4 border-blue-500 my-4 text-xs sm:text-sm">
+                            <span class="font-bold text-blue-800 dark:text-blue-300 block mb-1"><i class="fa-solid fa-lightbulb"></i> Analogi Keseharian Siswa:</span>
+                            Bayangkan sebuah jaringan Wi-Fi yang dipasang oleh pemilik kafe hanya untuk keperluan mesin kasirnya sendiri. Namun, password Wi-Fi tersebut secara tidak sengaja bocor ke para pengunjung. Pengunjung kemudian memanfaatkannya untuk belajar, berkomunikasi, dan menggalang gerakan aksi sosial. Seperti itulah Politik Etis: belanda menyediakan pendidikan untuk kepentingannya sendiri, namun siswa pribumi menggunakannya untuk menyadarkan bangsa dan merebut kemerdekaan!
+                        </div>
+
+                        <!-- KOTAK MISKONSEPSI -->
+                        <div class="bg-rose-50 dark:bg-rose-950/40 p-4 rounded-xl border border-rose-200 dark:border-rose-800 my-4 text-xs sm:text-sm">
+                            <div class="font-bold text-rose-800 dark:text-rose-300 flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Miskonsepsi Umum & Koreksinya:
+                            </div>
+                            <p class="text-rose-900 dark:text-rose-200">
+                                <strong>Miskonsepsi:</strong> Politik Etis diberikan Belanda murni karena kebaikan hati dan rasa kasihan kepada rakyat Indonesia.<br>
+                                <strong>Koreksi Sejarah:</strong> Politik Etis lahir dari desakan politik kapitalis swasta Belanda yang membutuhkan tenaga kerja terdidik yang murah dan infrastruktur irigasi demi meningkatkan hasil komoditas ekspor mereka. Kesempatan pendidikan bagi pribumi sangat dibatasi hanya untuk golongan priyayi/bangsawan.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SUBBAB 2 -->
+                <article id="sub2" class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 space-y-4">
+                    <div class="border-b pb-3 dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-emerald-700 dark:text-emerald-400">Subbab 2: Lahirnya Organisasi Pelopor — Budi Utomo & Sarekat Islam</h3>
+                        <span class="text-xs font-semibold px-2 py-1 bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 rounded">Tahap Mengaplikasi</span>
+                    </div>
+                    <div class="prose dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed space-y-3">
+                        <p>
+                            Berdirinya <strong>Budi Utomo (BU)</strong> pada 20 Mei 1908 oleh Dr. Soetomo dan para mahasiswa STOVIA atas gagasan Dr. Wahidin Soedirohoesodo menandai fajar baru perjuangan bangsa. Berbeda dengan perlawanan abad ke-19 yang bersifat kedaerahan dan mengandalkan senjata tajam, Budi Utomo bergerak menggunakan organisasi modern, AD/ART, kepengurusan tetap, dan diplomasi.
+                        </p>
+                        <p>
+                            Namun, Budi Utomo awal masih terbatas pada suku Jawa dan Madura serta berfokus pada kebudayaan dan pendidikan priyayi. Organisasi massa pertama yang sesungguhnya merakyat dan meluas ke seluruh Nusantara adalah <strong>Sarekat Islam (SI)</strong> yang didirikan oleh H.O.S. Tjokroaminoto pada tahun 1912 (berakar dari Sarekat Dagang Islam pimpinan H. Samanhudi 1905). SI berani mengkritik eksploitasi kolonial dan memperjuangkan keadilan ekonomi pedagang lokal.
+                        </p>
+
+                        <!-- TABEL PERBANDINGAN ORGANISASI -->
+                        <div class="overflow-x-auto my-4">
+                            <table class="w-full text-xs sm:text-sm text-left border-collapse border border-gray-200 dark:border-gray-700">
+                                <thead>
+                                    <tr class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-900 dark:text-emerald-200">
+                                        <th class="p-2 border">Aspek Perbandingan</th>
+                                        <th class="p-2 border">Budi Utomo (1908)</th>
+                                        <th class="p-2 border">Sarekat Islam (1912)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b dark:border-gray-700">
+                                        <td class="p-2 font-bold border">Pendiri / Tokoh Utama</td>
+                                        <td class="p-2 border">Dr. Soetomo, Dr. Wahidin S.</td>
+                                        <td class="p-2 border">H. Samanhudi, H.O.S. Tjokroaminoto</td>
+                                    </tr>
+                                    <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                                        <td class="p-2 font-bold border">Basis Keanggotaan</td>
+                                        <td class="p-2 border">Kaum Priyayi, Mahasiswa STOVIA, Suku Jawa/Madura</td>
+                                        <td class="p-2 border">Lintas Etnis, Rakyat Jelata, Pedagang, Petani</td>
+                                    </tr>
+                                    <tr class="border-b dark:border-gray-700">
+                                        <td class="p-2 font-bold border">Fokus Utama Perjuangan</td>
+                                        <td class="p-2 border">Pendidikan, Kebudayaan Jawa, Sosio-budaya</td>
+                                        <td class="p-2 border">Ekonomi Pribumi, Agama Islam, Hak Politik Rakyat</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SUBBAB 3 -->
+                <article id="sub3" class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 space-y-4">
+                    <div class="border-b pb-3 dark:border-gray-700 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-emerald-700 dark:text-emerald-400">Subbab 3: Pergerakan Radikal, Non-Koperasi, & Sumpah Pemuda 1928</h3>
+                        <span class="text-xs font-semibold px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded">Tahap Merefleksi</span>
+                    </div>
+                    <div class="prose dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed space-y-3">
+                        <p>
+                            Memasuki dekade 1920-an, strategi perjuangan beralih secara drastis dari koperatif (bekerja sama dengan Belanda) menjadi <strong>Radikal & Non-Koperatif</strong>. Organisasi seperti <strong>Indische Partij (1912)</strong> pimpinan Tiga Serangkai (Douwes Dekker, Cipto Mangunkusumo, Ki Hajar Dewantara) memperjuangkan <em>"Indie los van Holland"</em> (Hindia Lepas dari Belanda).
+                        </p>
+                        <p>
+                            Di Eropa, mahasiswa Indonesia membentuk <strong>Perhimpunan Indonesia (PI)</strong> pada 1925 di bawah pimpinan Mohammad Hatta dan Sutan Sjahrir. PI menanamkan prinsip *Self-Reliance* (menolong diri sendiri) dan menjadikan istilah "INDONESIA" sebagai simbol identitas politik bersama. Di tanah air, Soekarno mendirikan <strong>Partai Nasional Indonesia (PNI)</strong> pada 1927 dengan Marhaenisme sebagai idiologi perjuangan.
+                        </p>
+                        <p>
+                            Puncak persatuan dari seluruh organisasi pemuda (Jong Java, Jong Sumatranen Bond, Jong Ambon, dll.) terjadi pada <strong>Kongres Pemuda II tanggal 28 Oktober 1928</strong> di Jakarta yang menghasilkan ikrar historis <strong>Sumpah Pemuda</strong>: Satu Nusa, Satu Bangsa, dan Satu Bahasa Indonesia, serta diperdengarkannya lagu Indonesia Raya karya W.R. Soepratman.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- TAB 2: BANK SOAL INTERAKTIF (5 TIPE SOAL) -->
+        <section id="content-banksoal" class="tab-content hidden space-y-8">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b pb-4 dark:border-gray-700">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Bank Soal Evaluasi Interaktif</h2>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Terdiri dari 5 Tipe Soal dengan Penilaian Otomatis & Pembahasan Langsung (Tingkat Kognitif C1-C6)</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="resetAllQuiz()" class="px-3 py-1.5 text-xs font-semibold bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 rounded-lg transition-colors">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> Reset Jawaban
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB TIPE SOAL -->
+                <div class="flex flex-wrap gap-2 mb-6 border-b dark:border-gray-700 pb-3">
+                    <button onclick="switchQuizType('pg')" id="btn-quiz-pg" class="quiz-type-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white">1. Pilihan Ganda (10 Soal)</button>
+                    <button onclick="switchQuizType('bs')" id="btn-quiz-bs" class="quiz-type-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">2. Benar - Salah (10 Soal)</button>
+                    <button onclick="switchQuizType('isian')" id="btn-quiz-isian" class="quiz-type-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">3. Isian Singkat (10 Soal)</button>
+                    <button onclick="switchQuizType('jodoh')" id="btn-quiz-jodoh" class="quiz-type-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">4. Menjodohkan (5 Pasang)</button>
+                    <button onclick="switchQuizType('uraian')" id="btn-quiz-uraian" class="quiz-type-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">5. Uraian & Rubrik (5 Soal)</button>
+                </div>
+
+                <!-- CONTAINER CONTAINER TIPE SOAL -->
+                <div id="quiz-container-pg" class="quiz-section space-y-6"></div>
+                <div id="quiz-container-bs" class="quiz-section hidden space-y-6"></div>
+                <div id="quiz-container-isian" class="quiz-section hidden space-y-6"></div>
+                <div id="quiz-container-jodoh" class="quiz-section hidden space-y-6"></div>
+                <div id="quiz-container-uraian" class="quiz-section hidden space-y-6"></div>
+            </div>
+        </section>
+
+        <!-- TAB 3: LKPD INTERAKTIF (LEMBAR KERJA) -->
+        <section id="content-lkpd" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
+                <!-- Kop LKPD Resmi -->
+                <div class="border-b-4 border-double border-gray-800 dark:border-gray-200 pb-4 mb-6 text-center">
+                    <h2 class="text-xl font-black uppercase tracking-wider">SMA NEGERI 9 PADANG</h2>
+                    <h3 class="text-md font-bold text-emerald-600 dark:text-emerald-400">LEMBAR KERJA PESERTA DIDIK (LKPD) DIGITAL</h3>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">Mata Pelajaran: Sejarah | Guru: Anton Virgo, S.Pd. | Topik: Kebangkitan Nasionalisme</p>
+                </div>
+
+                <!-- Capaian & Tujuan Pembelajaran -->
+                <div class="bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800 mb-6 text-xs sm:text-sm space-y-2">
+                    <div><strong>Capaian Pembelajaran (CP):</strong> Peserta didik mampu menganalisis keterkaitan antara Politik Etis, munculnya golongan terdidik, dan dinamika organisasi pergerakan nasional dalam merebut kemerdekaan.</div>
+                    <div><strong>Model Pembelajaran:</strong> Pembelajaran Mendalam (Memahami — Mengaplikasi — Merefleksi).</div>
+                </div>
+
+                <!-- Form LKPD -->
+                <form id="lkpdForm" onsubmit="event.preventDefault(); saveLKPD();" class="space-y-6">
+                    <!-- TAHAP 1: MEMAHAMI (STIMULUS & PERTANYAAN) -->
+                    <div class="border p-4 sm:p-6 rounded-xl dark:border-gray-700 space-y-4">
+                        <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Tahap 1: Memahami (Understanding)</span>
+                        <h4 class="font-bold text-base mt-2">Analisis Kausalitas Politik Etis & Pendidikan</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Jelaskan bagaimana pilar pendidikan dalam Politik Etis yang dirancang oleh Belanda justru menjadi "senjata makan tuan" yang membidani lahirnya pergerakan nasional Indonesia!</p>
+                        <textarea id="lkpd_q1" onchange="saveLKPD()" rows="4" placeholder="Ketikkan analisis kritis Anda di sini..." class="w-full p-3 border dark:border-gray-600 rounded-lg text-sm bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                    </div>
+
+                    <!-- TAHAP 2: MENGAPLIKASI (TABEL EKSPLORASI ORGANISASI) -->
+                    <div class="border p-4 sm:p-6 rounded-xl dark:border-gray-700 space-y-4">
+                        <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Tahap 2: Mengaplikasi (Applying)</span>
+                        <h4 class="font-bold text-base mt-2">Matriks Perbandingan Strategi Organisasi Pergerakan</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs sm:text-sm border-collapse border dark:border-gray-700">
+                                <thead>
+                                    <tr class="bg-gray-100 dark:bg-gray-700">
+                                        <th class="p-2 border">Nama Organisasi</th>
+                                        <th class="p-2 border">Bentuk Perjuangan (Koperatif / Non-Koperatif)</th>
+                                        <th class="p-2 border">Analisis Alasan Pemilihan Strategi Tersebut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-2 border font-bold">Budi Utomo</td>
+                                        <td class="p-2 border"><input type="text" id="lkpd_strat1" onchange="saveLKPD()" class="w-full p-1 border rounded dark:bg-gray-700"></td>
+                                        <td class="p-2 border"><input type="text" id="lkpd_reason1" onchange="saveLKPD()" class="w-full p-1 border rounded dark:bg-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 border font-bold">Indische Partij</td>
+                                        <td class="p-2 border"><input type="text" id="lkpd_strat2" onchange="saveLKPD()" class="w-full p-1 border rounded dark:bg-gray-700"></td>
+                                        <td class="p-2 border"><input type="text" id="lkpd_reason2" onchange="saveLKPD()" class="w-full p-1 border rounded dark:bg-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 border font-bold">Perhimpunan Indonesia</td>
+                                        <td class="p-2 border"><input type="text" id="lkpd_strat3" onchange="saveLKPD()" class="w-full p-1 border rounded dark:bg-gray-700"></td>
+                                        <td class="p-2 border"><input type="text" id="lkpd_reason3" onchange="saveLKPD()" class="w-full p-1 border rounded dark:bg-gray-700"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- TAHAP 3: MEREFLEKSI (REFLEKSI KONTEKS MODERN) -->
+                    <div class="border p-4 sm:p-6 rounded-xl dark:border-gray-700 space-y-4">
+                        <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Tahap 3: Merefleksi (Reflecting)</span>
+                        <h4 class="font-bold text-base mt-2">Relevansi Jiwa Sumpah Pemuda bagi Generasi Gen-Z</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Sebagai siswa SMAN 9 Padang di era digital, bagaimana Anda mengaplikasikan semangat persatuan Sumpah Pemuda 1928 untuk mengatasi ancaman penyebaran hoaks dan polarisasi di media sosial?</p>
+                        <textarea id="lkpd_q3" onchange="saveLKPD()" rows="4" placeholder="Tuliskan refleksi pribadi Anda secara jujur dan mendalam..." class="w-full p-3 border dark:border-gray-600 rounded-lg text-sm bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+                    </div>
+
+                    <!-- STATUS SIMPAN LKPD -->
+                    <div class="flex justify-between items-center pt-2">
+                        <span id="lkpdStatus" class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold"><i class="fa-solid fa-circle-check"></i> Seluruh isian LKPD otomatis tersimpan.</span>
+                        <button type="button" onclick="switchTab('rekam')" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700">
+                            Lihat & Cetak Laporan <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- TAB 4: GAME EDUKASI (TIME-ATTACK QUIZ BATTLE) -->
+        <section id="content-game" class="tab-content hidden space-y-6">
+            <!-- Catatan Mekanik Game untuk Pengembang -->
+            <!-- Mekanik Game: Time-Attack History Challenge. Mengambil soal secara acak dari Bank Soal dengan nyawa (HP), timer berjalan, skor bertingkat, dan efek suara sintetis (Web Audio API) untuk pengalaman pembelajaran yang menyenangkan. -->
+            <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 text-center">
+                <div class="max-w-md mx-auto space-y-4">
+                    <div class="w-20 h-20 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto text-4xl border-2 border-amber-500/30">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-gray-800 dark:text-gray-100">Kuis Perjuangan Pergerakan</h2>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Uji kecepatan dan ketepatan pengetahuan sejarah Anda! Jawab sebanyak mungkin soal sebelum waktu habis atau nyawa berkurang.</p>
+
+                    <!-- Game Board Container -->
+                    <div id="gameBoard" class="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border dark:border-gray-700 text-left space-y-4">
+                        <div class="flex justify-between items-center border-b pb-3 dark:border-gray-700 text-xs font-bold">
+                            <div class="flex items-center gap-1 text-red-500">
+                                <i class="fa-solid fa-heart"></i> Nyawa: <span id="gameLives">3</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-amber-500">
+                                <i class="fa-solid fa-star"></i> Skor Game: <span id="gameScore">0</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-blue-500">
+                                <i class="fa-solid fa-stopwatch"></i> Waktu: <span id="gameTimer">15</span>s
+                            </div>
+                        </div>
+
+                        <!-- Game Question & Options -->
+                        <div id="gameContent" class="space-y-4">
+                            <div class="text-center py-6">
+                                <button onclick="startGame()" class="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-sm rounded-xl shadow-lg hover:scale-105 transition-transform">
+                                    <i class="fa-solid fa-play mr-2"></i> Mulai Permainan Baru
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: REKAM KERJA SISWA & LAPORAN PDF -->
+        <section id="content-rekam" class="tab-content hidden space-y-6">
+            <!-- Tampilan Layar Utama Rekam Kerja -->
+            <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 no-print">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4 dark:border-gray-700">
+                    <div>
+                        <h2 class="text-2xl font-bold">Portofolio & Rekam Kerja Siswa</h2>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Rangkuman nilai, durasi belajar, dan isian LKPD interaktif.</p>
+                    </div>
+                    <button onclick="window.print()" class="px-5 py-2.5 bg-gradient-to-r from-red-800 to-amber-800 text-white font-bold text-sm rounded-xl shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+                        <i class="fa-solid fa-file-pdf"></i> Cetak / Unduh Laporan PDF
+                    </button>
+                </div>
+
+                <!-- Ringkasan Nilai Card -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-6">
+                    <div class="bg-emerald-50 dark:bg-emerald-950/40 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800 text-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400 block">Pilihan Ganda</span>
+                        <span id="summary-pg" class="text-xl font-black text-emerald-600 dark:text-emerald-400">0 / 100</span>
+                    </div>
+                    <div class="bg-blue-50 dark:bg-blue-950/40 p-4 rounded-xl border border-blue-200 dark:border-blue-800 text-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400 block">Benar - Salah</span>
+                        <span id="summary-bs" class="text-xl font-black text-blue-600 dark:text-blue-400">0 / 100</span>
+                    </div>
+                    <div class="bg-amber-50 dark:bg-amber-950/40 p-4 rounded-xl border border-amber-200 dark:border-amber-800 text-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400 block">Isian Singkat</span>
+                        <span id="summary-isian" class="text-xl font-black text-amber-600 dark:text-amber-400">0 / 100</span>
+                    </div>
+                    <div class="bg-purple-50 dark:bg-purple-950/40 p-4 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
+                        <span class="text-xs text-gray-500 dark:text-gray-400 block">Skor Game</span>
+                        <span id="summary-game" class="text-xl font-black text-purple-600 dark:text-purple-400">0 Poin</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOKUMEN CETAK PDF OFFICIAL (HANYA MUNCUL SAAT DI-PRINT) -->
+            <div class="print-only p-8 text-black bg-white space-y-6">
+                <!-- Kop Resmi SMAN 9 Padang -->
+                <div class="text-center border-b-4 border-black pb-4">
+                    <h1 class="text-2xl font-black tracking-widest uppercase">PEMERINTAH PROVINSI SUMATERA BARAT</h1>
+                    <h2 class="text-xl font-bold uppercase">DINAS PENDIDIKAN — SMA NEGERI 9 PADANG</h2>
+                    <p class="text-xs mt-1">Jl. Pasar Baru, Pauh, Kota Padang, Sumatera Barat | Telp/Fax: (0751) 705123</p>
+                    <p class="text-xs font-semibold mt-1 text-gray-700">LAPORAN HASIL BELAJAR DIGITAL (DEEP LEARNING)</p>
+                </div>
+
+                <!-- Identitas Siswa -->
+                <div class="grid grid-cols-2 text-xs border p-3 rounded space-y-1">
+                    <div><strong>Nama Siswa:</strong> <span id="print-name">-</span></div>
+                    <div><strong>Kelas / Fase:</strong> <span id="print-class">-</span> (Fase F)</div>
+                    <div><strong>NIS / NISN:</strong> <span id="print-nis">-</span></div>
+                    <div><strong>Mata Pelajaran:</strong> Sejarah</div>
+                    <div><strong>Guru Pengampu:</strong> Anton Virgo, S.Pd</div>
+                    <div><strong>Tanggal / Sesi:</strong> <span id="print-date">-</span></div>
+                </div>
+
+                <!-- Hasil Nilai -->
+                <div>
+                    <h3 class="font-bold text-sm mb-2 border-b pb-1">I. CAPAIAN EVALUASI BANK SOAL</h3>
+                    <table class="w-full text-xs border-collapse border">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border p-2 text-left">Komponen Evaluasi</th>
+                                <th class="border p-2 text-center">Jumlah Soal</th>
+                                <th class="border p-2 text-center">Skor Diperoleh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border p-2">Pilihan Ganda Interaktif</td>
+                                <td class="border p-2 text-center">10 Butir</td>
+                                <td class="border p-2 text-center" id="print-score-pg">0</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2">Benar - Salah (Penalaran)</td>
+                                <td class="border p-2 text-center">10 Butir</td>
+                                <td class="border p-2 text-center" id="print-score-bs">0</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2">Isian Singkat Sejarah</td>
+                                <td class="border p-2 text-center">10 Butir</td>
+                                <td class="border p-2 text-center" id="print-score-isian">0</td>
+                            </tr>
+                            <tr>
+                                <td class="border p-2">Skor Tantangan Game Edukasi</td>
+                                <td class="border p-2 text-center">-</td>
+                                <td class="border p-2 text-center" id="print-score-game">0 Poin</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Hasil LKPD -->
+                <div>
+                    <h3 class="font-bold text-sm mb-2 border-b pb-1">II. HASIL LEMBAR KERJA PESERTA DIDIK (LKPD)</h3>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <strong>1. Analisis Kausalitas Politik Etis:</strong>
+                            <p id="print-lkpd-q1" class="border p-2 rounded bg-gray-50 italic mt-1">(Belum diisi)</p>
+                        </div>
+                        <div>
+                            <strong>2. Refleksi Sumpah Pemuda Era Digital:</strong>
+                            <p id="print-lkpd-q3" class="border p-2 rounded bg-gray-50 italic mt-1">(Belum diisi)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tanda Tangan Offisial -->
+                <div class="grid grid-cols-2 text-center text-xs pt-12">
+                    <div>
+                        <p>Mengetahui,</p>
+                        <p class="font-bold mt-1">Orang Tua / Wali Siswa</p>
+                        <div class="h-16"></div>
+                        <p class="border-t w-40 mx-auto pt-1">( .................................... )</p>
+                    </div>
+                    <div>
+                        <p>Padang, <span id="print-sign-date">26 Oktober 2026</span></p>
+                        <p class="font-bold mt-1">Guru Mata Pelajaran Sejarah</p>
+                        <div class="h-16"></div>
+                        <p class="font-bold underline">Anton Virgo, S.Pd.</p>
+                        <p class="text-[10px]">NIP. 19850812 201001 1 008</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC ALL-IN-ONE -->
+    <script>
+        // DATA GLOSARIUM SEJARAH (30 ISTILAH)
+        const glossaryData = [
+            { term: "Politik Etis", def: "Kebijakan balas budi Belanda (1901) mencakup Edukasi, Irigasi, Transmigrasi." },
+            { term: "STOVIA", def: "School tot Opleiding van Inlandsche Artsen - Sekolah Dokter Jawa pembidani Budi Utomo." },
+            { term: "Volksraad", def: "Dewan Rakyat bentukan Belanda pada 1918 sebagai lembaga perwakilan semu." },
+            { term: "Indie-Weerbaar", def: "Gerakan mempertahankan Hindia Belanda dari ancaman perang luar." },
+            { term: "Self-Reliance", def: "Prinsip menolong diri sendiri tanpa bergantung pada pemerintah kolonial." },
+            { term: "Non-Kooperasi", def: "Sikap menolak bekerja sama dalam bentuk apa pun dengan pemerintah kolonial." },
+            { term: "Tiga Serangkai", def: "Pendiri Indische Partij: Douwes Dekker, Cipto Mangunkusumo, Ki Hajar Dewantara." },
+            { term: "Marhaenisme", def: "Ideologi sosio-nasionalisme Soekarno membela rakyat kecil (Marhaen)." },
+            { term: "Sumpah Pemuda", def: "Ikrar kebangsaan pemuda Indonesia pada 28 Oktober 1928." },
+            { term: "Indische Partij", def: "Organisasi politik pertama yang mengumandangkan kemerdekaan Indonesia (1912)." },
+            { term: "Perhimpunan Indonesia", def: "Organisasi mahasiswa Indonesia di Belanda pimpinan Moh. Hatta." },
+            { term: "Sarekat Islam", def: "Organisasi massa berbasis ekonomi Islam pimpinan H.O.S. Tjokroaminoto." },
+            { term: "Budi Utomo", def: "Organisasi pergerakan pemuda modern pertama di Indonesia (20 Mei 1908)." },
+            { term: "Een Eereschuld", def: "Artikel 'Utang Kehormatan' tulisan Van Deventer membela hak pribumi." },
+            { term: "Cultuurstelsel", def: "Sistem Tanam Paksa yang diberlakukan van den Bosch tahun 1830." },
+            { term: "Jong Java", def: "Organisasi pemuda kedaerahan suku Jawa didirikan 1915 (TrimoerTI)." },
+            { term: "Jong Sumatranen Bond", def: "Perhimpunan pemuda pemudi pelajar Sumatra didirikan 1917." },
+            { term: "Irigasi", def: "Pengairan sawah/perkebunan dalam pilar Politik Etis." },
+            { term: "Emigrasi", def: "Program pemindahan penduduk dari Jawa ke luar pulau dalam Politik Etis." },
+            { term: "Kooperasi", def: "Strategi perjuangan bersedia duduk dalam dewan bentukan Belanda." },
+            { term: "Parindra", def: "Partai Indonesia Raya didirikan Dr. Soetomo tahun 1935." },
+            { term: "GAPI", def: "Gabungan Politiek Indonesia menuntut Indonesia Berparlemen (1939)." },
+            { term: "Petisi Soetardjo", def: "Usulan otonomi Indonesia secara bertahap dalam waktu 10 tahun (1936)." },
+            { term: "Kewedanaan", def: "Wilayah administratif tingkat karesidenan zaman kolonial." },
+            { term: "Priyayi", def: "Golongan bangsawan atau pegawai pemerintah kolonial Belanda." },
+            { term: "Marhaen", def: "Petani kecil Indonesia yang memiliki alat produksi sendiri namun tetap miskin." },
+            { term: "Indonesia Raya", def: "Lagu kebangsaan ciptaan W.R. Soepratman diperdengarkan 1928." },
+            { term: "Kongres Pemuda I", def: "Pertemuan pemuda pertama tahun 1926 membahas persatuan bahasa." },
+            { term: "Kongres Pemuda II", def: "Pertemuan di Jakarta 27-28 Oktober 1928 melahirkan Sumpah Pemuda." },
+            { term: "Sanusi Pane", def: "Sastrawan pergerakan nasional anggota Kongres Pemuda." }
+        ];
+
+        // DATABASE BANK SOAL (PG, BS, ISIAN, JODOH, URAIAN)
+        const quizData = {
+            pg: [
+                { q: "Apa dampak utama pilar pendidikan (Edukasi) Politik Etis bagi bangsa Indonesia?", opts: ["Terbentuknya tentara pribumi", "Lahirnya golongan terdidik pergerakan", "Penurunan angka kemiskinan drastis", "Hilangnya tradisi lokal"], ans: 1, cog: "C4", exp: "Pendidikan Politik Etis melahirkan elite intelektual terdidik yang menyadari ketidakadilan kolonialisme dan memelopori gerakan nasional." },
+                { q: "Tokoh yang dijuluki 'Raja Tanpa Mahkota' dan pemimpin utama Sarekat Islam adalah...", opts: ["Soekarno", "H.O.S. Tjokroaminoto", "Dr. Soetomo", "Moh. Hatta"], ans: 1, cog: "C1", exp: "H.O.S. Tjokroaminoto adalah pemimpin kharismatik Sarekat Islam yang melatih banyak tokoh muda seperti Soekarno." },
+                { q: "Organisasi politik pertama yang secara tegas menuntut kemerdekaan Indonesia adalah...", opts: ["Budi Utomo", "Sarekat Islam", "Indische Partij", "PNI"], ans: 2, cog: "C2", exp: "Indische Partij (1912) adalah partai politik pertama dengan slogan 'Indie voor Indiers' dan bertujuan merdeka." },
+                { q: "Siapakah pencipta lagu kebangsaan 'Indonesia Raya'?", opts: ["Ismail Marzuki", "W.R. Soepratman", "Kusbini", "C. Simanjuntak"], ans: 1, cog: "C1", exp: "W.R. Soepratman memainkan lagu Indonesia Raya pertama kali menggunakan biola pada Kongres Pemuda II 1928." },
+                { q: "Apa nama organisasi mahasiswa Indonesia di Belanda yang memperkenalkan nama 'INDONESIA' di dunia internasional?", opts: ["Indische Vereeniging / Perhimpunan Indonesia", "PPI", "Indische Partij", "Budi Utomo"], ans: 0, cog: "C3", exp: "Perhimpunan Indonesia (PI) di Belanda mengubah namanya pada 1925 untuk menegaskan identitas kebangsaan." },
+                { q: "Mengapa Budi Utomo (20 Mei 1908) ditetapkan sebagai Hari Kebangkitan Nasional?", opts: ["Merupakan partai politik pertama", "Awal perjuangan menggunakan organisasi modern", "Berhasil mengusir Belanda", "Melibatkan seluruh rakyat"], ans: 1, cog: "C4", exp: "Budi Utomo menandai pergeseran perjuangan kedaerahan fisik menuju gerakan organisasi modern." },
+                { q: "Siapa Tiga Serangkai pendiri Indische Partij?", opts: ["Soekarno, Hatta, Sjahrir", "Douwes Dekker, Cipto Mangunkusumo, Ki Hajar Dewantara", "Samanhudi, Tjokroaminoto, Agus Salim", "Soetomo, Wahidin, Mas Ngabehi"], ans: 1, cog: "C1", exp: "Tiga Serangkai adalah Danudirdja Setiabudi (Douwes Dekker), Dr. Cipto Mangunkusumo, dan Suwardi Suryaningrat (Ki Hajar Dewantara)." },
+                { q: "Asas perjuangan PNI yang didirikan Soekarno pada tahun 1927 adalah...", opts: ["Koperatif dan Sosialis", "Non-Koperatif dan Self-Help", "Isolasionis", "Dominion Hindia"], ans: 1, cog: "C3", exp: "PNI bersikap non-koperatif (menolak kerja sama dengan Belanda) dan mengandalkan kekuatan sendiri (Self-help)." },
+                { q: "Sumpah Pemuda dicetuskan pada tanggal...", opts: ["20 Mei 1908", "28 Oktober 1928", "17 Agustus 1945", "10 November 1945"], ans: 1, cog: "C1", exp: "Kongres Pemuda II menetapkan Sumpah Pemuda pada 28 Oktober 1928." },
+                { q: "Artikel 'Als ik eens Nederlander was' (Sekiranya Aku Seorang Belanda) ditulis oleh...", opts: ["Ki Hajar Dewantara", "Douwes Dekker", "Moh. Hatta", "Sutan Sjahrir"], ans: 0, cog: "C3", exp: "Suwardi Suryaningrat (Ki Hajar Dewantara) menulis sindiran tajam tersebut saat Belanda merayakan 100 tahun kemerdekaan dari Prancis menggunakan uang rakyat pribumi." }
+            ],
+            bs: [
+                { q: "Politik Etis dicanangkan oleh Ratu Wilhelmina pada tahun 1901.", ans: true, exp: "Benar. Ratu Wilhelmina mengumumkan pidato Politik Etis pada pembukaan parlemen Belanda 1901." },
+                { q: "Budi Utomo sejak awal berdirinya langsung menjadi partai politik radikal.", ans: false, exp: "Salah. Budi Utomo awal berfokus pada sosial, pendidikan, dan kebudayaan suku Jawa/Madura, bukan politik radikal." },
+                { q: "Sarekat Islam berasal dari Sarekat Dagang Islam (SDI) yang didirikan H. Samanhudi.", ans: true, exp: "Benar. SDI didirikan di Surakarta pada 1905/1911 untuk melindungi pedagang batik pribumi." },
+                { q: "Kongres Pemuda II dilaksanakan di kota Bandung.", ans: false, exp: "Salah. Kongres Pemuda II berlangsung di Jakarta (Batavia)." },
+                { q: "Mohammad Hatta adalah salah satu pemimpin utama Perhimpunan Indonesia di Belanda.", ans: true, exp: "Benar. Moh. Hatta menjabat ketua Perhimpunan Indonesia tahun 1926-1930." },
+                { q: "Indische Partij diizinkan beroperasi secara bebas oleh pemerintah Belanda tanpa pengasingan tokohnya.", ans: false, exp: "Salah. Tiga Serangkai pendiri IP ditangkap dan diasingkan ke Belanda pada tahun 1913." },
+                { q: "Istilah 'Marhaenisme' dicetuskan oleh H.O.S. Tjokroaminoto.", ans: false, exp: "Salah. Marhaenisme dicetuskan oleh Ir. Soekarno." },
+                { q: "Tujuan utama gerakan non-koperasi adalah menolak duduk di dalam Volksraad.", ans: true, exp: "Benar. Strategi non-koperasi menganggap dewan kolonial hanya alat propaganda Belanda." },
+                { q: "Pergerakan wanita Indonesia ditandai dengan Kongres Perempuan Pertama 22 Desember 1928 di Yogyakarta.", ans: true, exp: "Benar. Tanggal ini kini diperingati sebagai Hari Ibu." },
+                { q: "Volksraad memiliki kekuasaan legislatif penuh untuk membuat undang-undang sendiri tanpa campur tangan Gubernur Jenderal.", ans: false, exp: "Salah. Volksraad hanya bersifat penasihat (komit) dan keputusannya bisa di-veto oleh Gubernur Jenderal." }
+            ],
+            isian: [
+                { q: "Pilar Politik Etis yang berfokus pada pemindahan penduduk dari Jawa ke luar pulau disebut...", ans: ["emigrasi", "transmigrasi"], exp: "Emigrasi/Transmigrasi adalah salah satu dari 3 pilar Politik Etis." },
+                { q: "Organisasi pergerakan pertama yang berdiri pada 20 Mei 1908 adalah...", ans: ["budi utomo", "bu"], exp: "Budi Utomo didirikan oleh Dr. Soetomo dan mahasiswa STOVIA." },
+                { q: "Surat kabar terkenal milik Indische Partij yang memuat kritik tajam adalah...", ans: ["de uitpress", "het tijdschrift", "express", "de express"], exp: "De Express milik Douwes Dekker menjadi media suara Indische Partij." },
+                { q: "Ketua Kongres Pemuda II yang menghasilkan Sumpah Pemuda adalah...", ans: ["sugondo djojopuspito", "sugondo"], exp: "Sugondo Djojopuspito dari PPPI memimpin rapat Kongres Pemuda II." },
+                { q: "Gagasan pendidikan Budi Utomo pertama kali diusulkan oleh dokter dermawan bernama...", ans: ["dr. wahidin soedirohoesodo", "wahidin soedirohoesodo", "wahidin"], exp: "Dr. Wahidin keliling Jawa menggalang dana belajar (Studiefonds)." }
+            ],
+            jodoh: [
+                { left: "Budi Utomo (1908)", right: "Dr. Soetomo & Mahasiswa STOVIA" },
+                { left: "Sarekat Islam (1912)", right: "H.O.S. Tjokroaminoto" },
+                { left: "Indische Partij (1912)", right: "Tiga Serangkai" },
+                { left: "Perhimpunan Indonesia (1925)", right: "Mohammad Hatta" },
+                { left: "Partai Nasional Indonesia (1927)", right: "Ir. Soekarno" }
+            ],
+            uraian: [
+                { q: "Jelaskan perbedaan mendasar antara perjuangan bangsa Indonesia SEBELUM dan SESUDAH tahun 1908!", rubrik: "Skor 100: Menyebutkan 4 perbedaan (Kedaerahan vs Nasional, Senjata vs Organisasi, Dipimpin Raja/Agama vs Golongan Teredukasi, Bersifat reaktif vs Terencana)." },
+                { q: "Mengapa pemerintah kolonial Belanda sangat mengkhawatirkan keberadaan Indische Partij dan Perhimpunan Indonesia?", rubrik: "Skor 100: Menganalisis sikap radikal non-koperasi dan tuntutan tegas kemerdekaan penuh (Indie los van Holland)." }
+            ]
+        };
+
+        // STATE APLIKASI
+        let appState = {
+            studentName: "",
+            studentClass: "",
+            studentNis: "",
+            secondsElapsed: 0,
+            scores: { pg: 0, bs: 0, isian: 0, game: 0 },
+            audioEnabled: true,
+            theme: 'light'
+        };
+
+        // EFEK SUARA SINTETIS (WEB AUDIO API - Offline Friendly)
+        function playSound(type) {
+            if (!appState.audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                    gain.gain.fadeOut(0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+                    osc.frequency.setValueAtTime(196, ctx.currentTime + 0.1); // G3
+                    gain.gain.fadeOut(0.3);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                }
+            } catch (e) { console.log("Audio not supported"); }
+        }
+
+        // TIMER SESI BELAJAR
+        setInterval(() => {
+            appState.secondsElapsed++;
+            const m = Math.floor(appState.secondsElapsed / 60).toString().padStart(2, '0');
+            const s = (appState.secondsElapsed % 60).toString().padStart(2, '0');
+            document.getElementById('sessionTimer').innerText = `${m}:${s}`;
+        }, 1000);
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderGlossary();
+            renderQuizPG();
+            renderQuizBS();
+            renderQuizIsian();
+            renderQuizJodoh();
+            renderQuizUraian();
+            updateDateStamp();
+        };
+
+        function updateDateStamp() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('print-date').innerText = dateStr;
+            document.getElementById('print-sign-date').innerText = dateStr;
+        }
+
+        // NAVIGATION LOGIC
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-tab').forEach(el => {
+                el.classList.remove('border-amber-400', 'text-amber-300');
+                el.classList.add('border-transparent', 'text-gray-300');
+            });
+
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`tab-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.remove('border-transparent', 'text-gray-300');
+                activeNav.classList.add('border-amber-400', 'text-amber-300');
+            }
+        }
+
+        function scrollToChapter(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // THEME & AUDIO TOGGLES
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-moon';
+                document.getElementById('themeText').innerText = 'Gelap';
+            } else {
+                html.classList.add('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-sun text-amber-400';
+                document.getElementById('themeText').innerText = 'Terang';
+            }
+        }
+
+        function toggleAudio() {
+            appState.audioEnabled = !appState.audioEnabled;
+            const btn = document.getElementById('audioToggleBtn');
+            if (appState.audioEnabled) {
+                btn.innerHTML = `<i class="fa-solid fa-volume-high"></i> <span class="hidden sm:inline">Suara: On</span>`;
+                btn.className = "bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-colors flex items-center gap-1 text-emerald-300";
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-volume-xmark"></i> <span class="hidden sm:inline">Suara: Off</span>`;
+                btn.className = "bg-white/10 hover:bg-white/20 p-2 rounded-lg transition-colors flex items-center gap-1 text-gray-400";
+            }
+        }
+
+        // PROFIL SISWA DATA BINDING
+        function updateStudentData() {
+            appState.studentName = document.getElementById('studentName').value || '-';
+            appState.studentClass = document.getElementById('studentClass').value || '-';
+            appState.studentNis = document.getElementById('studentNis').value || '-';
+
+            document.getElementById('print-name').innerText = appState.studentName;
+            document.getElementById('print-class').innerText = appState.studentClass;
+            document.getElementById('print-nis').innerText = appState.studentNis;
+        }
+
+        // GLOSARIUM RENDER & SEARCH
+        function renderGlossary() {
+            const container = document.getElementById('glossaryContainer');
+            container.innerHTML = glossaryData.map(item => `
+                <div class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl border dark:border-gray-600 glossary-item">
+                    <span class="font-bold text-xs text-emerald-600 dark:text-emerald-400 block">${item.term}</span>
+                    <span class="text-xs text-gray-600 dark:text-gray-300">${item.def}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterGlossary() {
+            const q = document.getElementById('glossarySearch').value.toLowerCase();
+            document.querySelectorAll('.glossary-item').forEach(el => {
+                const text = el.innerText.toLowerCase();
+                el.style.display = text.includes(q) ? 'block' : 'none';
+            });
+        }
+
+        // BANK SOAL SUB-TAB SWITCHING
+        function switchQuizType(type) {
+            document.querySelectorAll('.quiz-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.quiz-type-btn').forEach(el => {
+                el.classList.remove('bg-emerald-600', 'text-white');
+                el.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-600', 'dark:text-gray-300');
+            });
+
+            document.getElementById(`quiz-container-${type}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-quiz-${type}`);
+            activeBtn.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-600', 'dark:text-gray-300');
+            activeBtn.classList.add('bg-emerald-600', 'text-white');
+        }
+
+        // 1. RENDER PILIHAN GANDA
+        function renderQuizPG() {
+            const container = document.getElementById('quiz-container-pg');
+            container.innerHTML = quizData.pg.map((item, idx) => `
+                <div class="p-4 border rounded-xl dark:border-gray-700 space-y-3 bg-gray-50/50 dark:bg-gray-800/50">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-emerald-600 dark:text-emerald-400">Soal PG ${idx + 1} / 10</span>
+                        <span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-[10px] font-semibold">${item.cog}</span>
+                    </div>
+                    <p class="font-semibold text-sm">${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        ${item.opts.map((opt, optIdx) => `
+                            <button onclick="checkPG(${idx}, ${optIdx})" id="pg-btn-${idx}-${optIdx}" class="p-2.5 text-left border rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors dark:border-gray-600">
+                                ${String.fromCharCode(65 + optIdx)}. ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="pg-exp-${idx}" class="hidden p-3 bg-blue-50 dark:bg-blue-950/40 text-xs rounded-lg border border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-200">
+                        <strong>Pembahasan:</strong> ${item.exp}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function checkPG(qIdx, optIdx) {
+            const item = quizData.pg[qIdx];
+            const isCorrect = optIdx === item.ans;
+            
+            item.opts.forEach((_, idx) => {
+                const btn = document.getElementById(`pg-btn-${qIdx}-${idx}`);
+                btn.disabled = true;
+                if (idx === item.ans) btn.classList.add('bg-emerald-500', 'text-white', 'font-bold');
+                else if (idx === optIdx && !isCorrect) btn.classList.add('bg-rose-500', 'text-white');
+            });
+
+            document.getElementById(`pg-exp-${qIdx}`).classList.remove('hidden');
+            if (isCorrect) {
+                playSound('correct');
+                appState.scores.pg += 10;
+            } else {
+                playSound('wrong');
+            }
+            updateScores();
+        }
+
+        // 2. RENDER BENAR - SALAH
+        function renderQuizBS() {
+            const container = document.getElementById('quiz-container-bs');
+            container.innerHTML = quizData.bs.map((item, idx) => `
+                <div class="p-4 border rounded-xl dark:border-gray-700 space-y-3 bg-gray-50/50 dark:bg-gray-800/50">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-bold text-emerald-600 dark:text-emerald-400">Soal B/S ${idx + 1} / 10</span>
+                    </div>
+                    <p class="font-semibold text-sm">"${item.q}"</p>
+                    <div class="flex gap-3 text-xs">
+                        <button onclick="checkBS(${idx}, true)" id="bs-btn-${idx}-true" class="px-4 py-2 border rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold dark:bg-emerald-900 dark:text-emerald-200">BENAR</button>
+                        <button onclick="checkBS(${idx}, false)" id="bs-btn-${idx}-false" class="px-4 py-2 border rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-800 font-bold dark:bg-rose-900 dark:text-rose-200">SALAH</button>
+                    </div>
+                    <div id="bs-exp-${idx}" class="hidden p-3 bg-blue-50 dark:bg-blue-950/40 text-xs rounded-lg border border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-200">
+                        <strong>Alasan Sejarah:</strong> ${item.exp}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function checkBS(qIdx, userAns) {
+            const item = quizData.bs[qIdx];
+            const isCorrect = userAns === item.ans;
+
+            document.getElementById(`bs-btn-${qIdx}-true`).disabled = true;
+            document.getElementById(`bs-btn-${qIdx}-false`).disabled = true;
+            document.getElementById(`bs-exp-${qIdx}`).classList.remove('hidden');
+
+            if (isCorrect) {
+                playSound('correct');
+                appState.scores.bs += 10;
+            } else playSound('wrong');
+            updateScores();
+        }
+
+        // 3. RENDER ISIAN SINGKAT
+        function renderQuizIsian() {
+            const container = document.getElementById('quiz-container-isian');
+            container.innerHTML = quizData.isian.map((item, idx) => `
+                <div class="p-4 border rounded-xl dark:border-gray-700 space-y-3 bg-gray-50/50 dark:bg-gray-800/50">
+                    <span class="font-bold text-xs text-emerald-600 dark:text-emerald-400">Isian Singkat ${idx + 1} / 5</span>
+                    <p class="font-semibold text-sm">${item.q}</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="isian-in-${idx}" placeholder="Ketik jawaban singkat..." class="p-2 border rounded-lg text-xs bg-white dark:bg-gray-700 flex-grow outline-none">
+                        <button onclick="checkIsian(${idx})" id="isian-btn-${idx}" class="px-4 py-2 bg-emerald-600 text-white font-bold text-xs rounded-lg hover:bg-emerald-700">Jawab</button>
+                    </div>
+                    <div id="isian-exp-${idx}" class="hidden p-2 text-xs font-semibold rounded-lg"></div>
+                </div>
+            `).join('');
+        }
+
+        function checkIsian(qIdx) {
+            const item = quizData.isian[qIdx];
+            const input = document.getElementById(`isian-in-${qIdx}`).value.trim().toLowerCase();
+            const exp = document.getElementById(`isian-exp-${qIdx}`);
+            const isCorrect = item.ans.includes(input);
+
+            document.getElementById(`isian-in-${qIdx}`).disabled = true;
+            document.getElementById(`isian-btn-${qIdx}`).disabled = true;
+            exp.classList.remove('hidden');
+
+            if (isCorrect) {
+                playSound('correct');
+                appState.scores.isian += 20;
+                exp.className = "p-2 text-xs font-semibold rounded-lg bg-emerald-100 text-emerald-800";
+                exp.innerText = "Jawaban Tepat! " + item.exp;
+            } else {
+                playSound('wrong');
+                exp.className = "p-2 text-xs font-semibold rounded-lg bg-rose-100 text-rose-800";
+                exp.innerText = `Kurang tepat. Kunci Jawaban: ${item.ans[0]}. (${item.exp})`;
+            }
+            updateScores();
+        }
+
+        // 4. RENDER MENJODOHKAN
+        function renderQuizJodoh() {
+            const container = document.getElementById('quiz-container-jodoh');
+            container.innerHTML = `
+                <p class="text-xs text-gray-500 mb-2">Pilih/Cocokkan Organisasi di Kolom Kiri dengan Tokoh/Slogan di Kolom Kanan.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        ${quizData.jodoh.map((item, idx) => `
+                            <div class="p-3 border rounded-lg text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40">${idx + 1}. ${item.left}</div>
+                        `).join('')}
+                    </div>
+                    <div class="space-y-2">
+                        ${quizData.jodoh.map((item, idx) => `
+                            <div class="p-3 border rounded-lg text-xs bg-white dark:bg-gray-700">${item.right}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 5. RENDER URAIAN & RUBRIK
+        function renderQuizUraian() {
+            const container = document.getElementById('quiz-container-uraian');
+            container.innerHTML = quizData.uraian.map((item, idx) => `
+                <div class="p-4 border rounded-xl dark:border-gray-700 space-y-3">
+                    <span class="font-bold text-xs text-emerald-600 dark:text-emerald-400">Soal Uraian ${idx + 1}</span>
+                    <p class="font-semibold text-sm">${item.q}</p>
+                    <textarea rows="3" placeholder="Jawab uraian di sini..." class="w-full p-2 border rounded-lg text-xs bg-gray-50 dark:bg-gray-700"></textarea>
+                    <div class="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg text-xs text-amber-900 dark:text-amber-200">
+                        <strong>Rubrik Penilaian Mandiri:</strong> ${item.rubrik}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateScores() {
+            const total = appState.scores.pg + appState.scores.bs + appState.scores.isian;
+            document.getElementById('globalScore').innerText = total;
+
+            document.getElementById('summary-pg').innerText = `${appState.scores.pg} / 100`;
+            document.getElementById('summary-bs').innerText = `${appState.scores.bs} / 100`;
+            document.getElementById('summary-isian').innerText = `${appState.scores.isian} / 100`;
+
+            document.getElementById('print-score-pg').innerText = `${appState.scores.pg} / 100`;
+            document.getElementById('print-score-bs').innerText = `${appState.scores.bs} / 100`;
+            document.getElementById('print-score-isian').innerText = `${appState.scores.isian} / 100`;
+        }
+
+        function resetAllQuiz() {
+            appState.scores = { pg: 0, bs: 0, isian: 0, game: 0 };
+            renderQuizPG();
+            renderQuizBS();
+            renderQuizIsian();
+            updateScores();
+        }
+
+        // LKPD LOGIC & SAVE
+        function saveLKPD() {
+            const q1 = document.getElementById('lkpd_q1').value;
+            const q3 = document.getElementById('lkpd_q3').value;
+
+            document.getElementById('print-lkpd-q1').innerText = q1 || '(Belum diisi)';
+            document.getElementById('print-lkpd-q3').innerText = q3 || '(Belum diisi)';
+        }
+
+        // GAME EDUKASI LOGIC
+        let gameTimerInterval;
+        let currentGameQuestion = 0;
+        let gameScore = 0;
+        let gameLives = 3;
+        let gameTimeLeft = 15;
+
+        function startGame() {
+            gameScore = 0;
+            gameLives = 3;
+            currentGameQuestion = 0;
+            document.getElementById('gameScore').innerText = gameScore;
+            document.getElementById('gameLives').innerText = gameLives;
+            nextGameQuestion();
+        }
+
+        function nextGameQuestion() {
+            if (gameLives <= 0 || currentGameQuestion >= quizData.pg.length) {
+                endGame();
+                return;
+            }
+
+            clearInterval(gameTimerInterval);
+            gameTimeLeft = 15;
+            document.getElementById('gameTimer').innerText = gameTimeLeft;
+
+            gameTimerInterval = setInterval(() => {
+                gameTimeLeft--;
+                document.getElementById('gameTimer').innerText = gameTimeLeft;
+                if (gameTimeLeft <= 0) {
+                    clearInterval(gameTimerInterval);
+                    gameLives--;
+                    document.getElementById('gameLives').innerText = gameLives;
+                    playSound('wrong');
+                    currentGameQuestion++;
+                    nextGameQuestion();
+                }
+            }, 1000);
+
+            const item = quizData.pg[currentGameQuestion];
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <div class="space-y-3">
+                    <p class="font-bold text-sm text-gray-800 dark:text-gray-100">${item.q}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${item.opts.map((opt, idx) => `
+                            <button onclick="answerGame(${idx})" class="p-3 text-xs text-left bg-white dark:bg-gray-800 border rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950 font-medium transition-all shadow-sm">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function answerGame(optIdx) {
+            clearInterval(gameTimerInterval);
+            const item = quizData.pg[currentGameQuestion];
+            if (optIdx === item.ans) {
+                playSound('correct');
+                gameScore += 100 + (gameTimeLeft * 10);
+                document.getElementById('gameScore').innerText = gameScore;
+            } else {
+                playSound('wrong');
+                gameLives--;
+                document.getElementById('gameLives').innerText = gameLives;
+            }
+
+            currentGameQuestion++;
+            nextGameQuestion();
+        }
+
+        function endGame() {
+            clearInterval(gameTimerInterval);
+            appState.scores.game = gameScore;
+            document.getElementById('summary-game').innerText = `${gameScore} Poin`;
+            document.getElementById('print-score-game').innerText = `${gameScore} Poin`;
+
+            document.getElementById('gameContent').innerHTML = `
+                <div class="text-center py-6 space-y-3">
+                    <h3 class="text-xl font-bold text-emerald-600">Permainan Selesai!</h3>
+                    <p class="text-sm">Skor Akhir Game Anda: <span class="font-extrabold text-amber-500">${gameScore}</span> Poin</p>
+                    <button onclick="startGame()" class="px-5 py-2.5 bg-emerald-600 text-white font-bold text-xs rounded-xl hover:bg-emerald-700">
+                        Main Lagi <i class="fa-solid fa-rotate-right ml-1"></i>
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
